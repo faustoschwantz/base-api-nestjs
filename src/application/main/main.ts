@@ -2,7 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import * as helmet from 'helmet';
 
 import { AppModule } from './app.module';
-import { port } from 'src/infraestructure/config/app.config';
+import appConfig from 'src/infrastructure/config/app.config';
 import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
@@ -22,6 +22,6 @@ async function bootstrap() {
   SwaggerModule.setup('api', app, document);
 
   app.use((helmet as any)());
-  await app.listen(port);
+  await app.listen(appConfig.port);
 }
 bootstrap();

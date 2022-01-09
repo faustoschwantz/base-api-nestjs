@@ -12,7 +12,7 @@ describe('ExampleController', () => {
         {
           provide: 'ICreateExampleService',
           useFactory: (): ICreateExampleService => ({
-            execute: jest.fn(() => 'ok'),
+            execute: jest.fn(),
           }),
         },
       ],

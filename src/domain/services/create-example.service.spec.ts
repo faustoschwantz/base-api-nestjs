@@ -1,4 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { IExampleMongooseRepository } from '../interfaces/repositories/example-mongoose-repository.interface';
+import { IExampleTypeOrmRepository } from '../interfaces/repositories/example-typeorm-repository.interface';
 import { ICreateExampleService } from '../interfaces/services/create-example-service.interface';
 import { CreateExampleService } from './create-example.service';
 
@@ -11,6 +13,18 @@ describe('CreateExampleService', () => {
         {
           provide: 'ICreateExampleService',
           useClass: CreateExampleService,
+        },
+        {
+          provide: 'IExampleMongooseRepository',
+          useFactory: (): Partial<IExampleMongooseRepository> => ({
+            create: jest.fn(),
+          }),
+        },
+        {
+          provide: 'IExampleTypeOrmRepository',
+          useFactory: (): Partial<IExampleTypeOrmRepository> => ({
+            create: jest.fn(),
+          }),
         },
       ],
     }).compile();
