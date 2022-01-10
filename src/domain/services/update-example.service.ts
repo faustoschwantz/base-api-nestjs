@@ -1,9 +1,8 @@
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, NotFoundException } from '@nestjs/common';
 import { UpdateExampleDto } from 'src/application/example/dto/update-example.dto';
 import { IExampleMongooseRepository } from '../interfaces/repositories/example-mongoose-repository.interface';
 import { IUpdateExampleService } from '../interfaces/services/update-example-service.interface';
 
-@Injectable()
 export class UpdateExampleService implements IUpdateExampleService {
   constructor(
     @Inject('IExampleMongooseRepository')

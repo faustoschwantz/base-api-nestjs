@@ -1,10 +1,9 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject } from '@nestjs/common';
 import { CreateExampleDto } from 'src/application/example/dto/create-example.dto';
 import { ExampleDto } from 'src/application/example/dto/example.dto';
 import { IExampleMongooseRepository } from '../interfaces/repositories/example-mongoose-repository.interface';
 import { ICreateExampleService } from '../interfaces/services/create-example-service.interface';
 
-@Injectable()
 export class CreateExampleService implements ICreateExampleService {
   constructor(
     @Inject('IExampleMongooseRepository')
