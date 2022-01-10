@@ -2,6 +2,7 @@ import { CreateExampleDto } from './dto/create-example.dto';
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Inject,
   Param,
@@ -21,6 +22,7 @@ import { MongoIdDto } from '../utils/dto/mongo-id.dto';
 import { IUpdateExampleService } from 'src/domain/interfaces/services/update-example-service.interface';
 import { IFindExampleService } from 'src/domain/interfaces/services/find-example-service.interface';
 import { IFindAllExampleService } from 'src/domain/interfaces/services/find-all-example-service.interface';
+import { IDeleteExampleService } from 'src/domain/interfaces/services/delete-example-service.interface';
 
 @ApiTags('Examples')
 @Controller('example')
@@ -34,6 +36,8 @@ export class ExampleController {
     private readonly findExampleService: IFindExampleService,
     @Inject('IFindAllExampleService')
     private readonly findAllExampleService: IFindAllExampleService,
+    @Inject('IDeleteExampleService')
+    private readonly deleteExampleService: IDeleteExampleService,
   ) {}
 
   @Post()
@@ -63,5 +67,12 @@ export class ExampleController {
   @ApiOkResponse({ description: 'A example list', type: [ExampleDto] })
   async findAll(): Promise<ExampleDto[]> {
     return this.findAllExampleService.execute();
+  }
+
+  @Delete(':id')
+  @ApiOkResponse({ description: 'Deleted example' })
+  @ApiNotFoundResponse({ description: 'Not found example' })
+  remove(@Param() { id }: MongoIdDto): Promise<void> {
+    return this.deleteExampleService.execute(id);
   }
 }

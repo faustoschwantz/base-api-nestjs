@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { CreateExampleService } from 'src/domain/services/create-example.service';
+import { DeleteExampleService } from 'src/domain/services/delete-example.service';
 import { FindAllExampleService } from 'src/domain/services/find-all-example.service';
 import { FindExampleService } from 'src/domain/services/find-example.service';
 import { UpdateExampleService } from 'src/domain/services/update-example.service';
@@ -39,6 +40,10 @@ import { ExampleController } from './example.controller';
     {
       provide: 'IFindAllExampleService',
       useClass: FindAllExampleService,
+    },
+    {
+      provide: 'IDeleteExampleService',
+      useClass: DeleteExampleService,
     },
     {
       provide: 'IExampleMongooseRepository',

@@ -8,4 +8,6 @@ export interface IBaseMongooseRepository<TDocument extends Document> {
   findById(id: string): Promise<TDocument | null>;
 
   find(filter?: FilterQuery<TDocument>): Promise<TDocument[]>;
+
+  deleteById(id: string): Promise<TDocument | null>;
 }
