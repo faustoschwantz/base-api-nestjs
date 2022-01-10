@@ -1,4 +1,4 @@
-import { Document, Model, UpdateQuery } from 'mongoose';
+import { Document, FilterQuery, Model, UpdateQuery } from 'mongoose';
 import { IBaseMongooseRepository } from 'src/domain/interfaces/repositories/base-mongoose-repository.interface';
 
 export abstract class BaseMongooseRepository<TDocument extends Document>
@@ -17,5 +17,9 @@ export abstract class BaseMongooseRepository<TDocument extends Document>
 
   async findOne(id: string): Promise<TDocument | null> {
     return this.model.findById(id).exec();
+  }
+
+  async findAll(filter?: FilterQuery<TDocument>): Promise<TDocument[]> {
+    return this.model.find(filter).exec();
   }
 }

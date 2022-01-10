@@ -20,6 +20,7 @@ import { UpdateExampleDto } from './dto/update-example.dto';
 import { MongoIdDto } from '../utils/dto/mongo-id.dto';
 import { IUpdateExampleService } from 'src/domain/interfaces/services/update-example-service.interface';
 import { IFindExampleService } from 'src/domain/interfaces/services/find-example-service.interface';
+import { IFindAllExampleService } from 'src/domain/interfaces/services/find-all-example-service.interface';
 
 @ApiTags('Examples')
 @Controller('example')
@@ -31,6 +32,8 @@ export class ExampleController {
     private readonly updateExampleService: IUpdateExampleService,
     @Inject('IFindExampleService')
     private readonly findExampleService: IFindExampleService,
+    @Inject('IFindAllExampleService')
+    private readonly findAllExampleService: IFindAllExampleService,
   ) {}
 
   @Post()
@@ -54,5 +57,11 @@ export class ExampleController {
   @ApiNotFoundResponse({ description: 'Not found example' })
   async find(@Param() { id }: MongoIdDto): Promise<ExampleDto> {
     return this.findExampleService.execute(id);
+  }
+
+  @Get()
+  @ApiOkResponse({ description: 'A example list', type: [ExampleDto] })
+  async findAll(): Promise<ExampleDto[]> {
+    return this.findAllExampleService.execute();
   }
 }
