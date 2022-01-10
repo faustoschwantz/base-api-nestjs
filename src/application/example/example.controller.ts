@@ -1,5 +1,13 @@
 import { CreateExampleDto } from './dto/create-example.dto';
-import { Body, Controller, Inject, Param, Patch, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Inject,
+  Param,
+  Patch,
+  Post,
+} from '@nestjs/common';
 import { ICreateExampleService } from 'src/domain/interfaces/services/create-example-service.interface';
 import {
   ApiCreatedResponse,
@@ -11,6 +19,7 @@ import { ExampleDto } from './dto/example.dto';
 import { UpdateExampleDto } from './dto/update-example.dto';
 import { MongoIdDto } from '../utils/dto/mongo-id.dto';
 import { IUpdateExampleService } from 'src/domain/interfaces/services/update-example-service.interface';
+import { IFindExampleService } from 'src/domain/interfaces/services/find-example-service.interface';
 
 @ApiTags('Examples')
 @Controller('example')
@@ -20,6 +29,8 @@ export class ExampleController {
     private readonly createExampleService: ICreateExampleService,
     @Inject('IUpdateExampleService')
     private readonly updateExampleService: IUpdateExampleService,
+    @Inject('IFindExampleService')
+    private readonly findExampleService: IFindExampleService,
   ) {}
 
   @Post()
@@ -36,5 +47,12 @@ export class ExampleController {
     @Body() updateExample: UpdateExampleDto,
   ): Promise<void> {
     await this.updateExampleService.execute(id, updateExample);
+  }
+
+  @Get(':id')
+  @ApiOkResponse({ description: 'A example', type: ExampleDto })
+  @ApiNotFoundResponse({ description: 'Not found example' })
+  async find(@Param() { id }: MongoIdDto): Promise<ExampleDto> {
+    return this.findExampleService.execute(id);
   }
 }
