@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CreateExampleService } from 'src/domain/services/create-example.service';
+import { UpdateExampleService } from 'src/domain/services/update-example.service';
 import { ExampleMongooseRepository } from 'src/infrastructure/mongoose/repositories/example.repository';
 import {
   ExampleMongoose,
@@ -27,6 +28,10 @@ import { ExampleController } from './example.controller';
     {
       provide: 'ICreateExampleService',
       useClass: CreateExampleService,
+    },
+    {
+      provide: 'IUpdateExampleService',
+      useClass: UpdateExampleService,
     },
     {
       provide: 'IExampleMongooseRepository',

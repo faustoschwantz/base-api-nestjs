@@ -1,20 +1,8 @@
-import { ApiProperty } from '@nestjs/swagger';
-import {
-  IsBoolean,
-  IsNotEmpty,
-  IsString,
-  IsUUID,
-  MaxLength,
-} from 'class-validator';
+import { ApiProperty, PickType } from '@nestjs/swagger';
+import { IsBoolean, IsNotEmpty, IsString, MaxLength } from 'class-validator';
+import { MongoIdDto } from 'src/application/utils/dto/mongo-id.dto';
 
-export class ExampleDto {
-  @IsUUID()
-  @ApiProperty({
-    description: 'A example identification',
-    example: '06923c84-1497-4f46-b720-75c54623508a',
-  })
-  id: string;
-
+export class ExampleDto extends PickType(MongoIdDto, ['id'] as const) {
   @IsString()
   @IsNotEmpty()
   @MaxLength(100)
