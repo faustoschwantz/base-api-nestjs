@@ -5,6 +5,9 @@ export abstract class BaseMongooseRepository<TDocument extends Document>
   implements IBaseMongooseRepository<TDocument>
 {
   constructor(private readonly model: Model<TDocument>) {}
+  findOne(id: string): Promise<TDocument> {
+    throw new Error('Method not implemented.');
+  }
 
   async create(data: object): Promise<TDocument> {
     const createdData = new this.model(data);
@@ -15,11 +18,11 @@ export abstract class BaseMongooseRepository<TDocument extends Document>
     return this.model.findByIdAndUpdate(id, data).exec();
   }
 
-  async findOne(id: string): Promise<TDocument | null> {
+  async findById(id: string): Promise<TDocument | null> {
     return this.model.findById(id).exec();
   }
 
-  async findAll(filter?: FilterQuery<TDocument>): Promise<TDocument[]> {
+  async find(filter?: FilterQuery<TDocument>): Promise<TDocument[]> {
     return this.model.find(filter).exec();
   }
 }

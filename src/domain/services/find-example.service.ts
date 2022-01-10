@@ -10,7 +10,7 @@ export class FindExampleService implements IFindExampleService {
   ) {}
 
   async execute(id: string): Promise<ExampleDto> {
-    const foundExample = await this.exampleRepository.findOne(id);
+    const foundExample = await this.exampleRepository.findById(id);
 
     if (!foundExample) throw new NotFoundException();
 

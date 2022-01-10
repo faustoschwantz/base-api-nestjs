@@ -10,7 +10,7 @@ export class FindAllExampleService implements IFindAllExampleService {
   ) {}
 
   async execute(): Promise<ExampleDto[]> {
-    const examples = await this.exampleRepository.findAll();
+    const examples = await this.exampleRepository.find();
 
     return examples.map(({ id, description, enable }) => ({
       id,
