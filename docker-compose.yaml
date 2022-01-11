@@ -1,0 +1,59 @@
+version: '3.9'
+
+services:
+  development:
+    build:
+      context: .
+    container_name: base-api-nest-dev
+    env_file: .env.development
+    entrypoint: npm run start:dev
+    ports:
+      - 3000:3000
+    depends_on:
+      - mongo
+      - postgres
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    networks:
+      - base-api-nest-network
+
+  mongo:
+    image: mongo
+    container_name: base-api-nest-mongo-db
+    restart: always
+    ports:
+      - 27017:27017
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=user_mongo
+      - MONGO_INITDB_ROOT_PASSWORD=pass_mongo
+      - MONGO_INITDB_DATABASE=admin
+    volumes:
+      - base-api-nest-mongo:/data/db
+    networks:
+      - base-api-nest-network
+
+  postgres:
+    image: postgres:alpine
+    container_name: base-api-nest-postgres-db
+    restart: always
+    tty: true
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=user_postgres
+      - POSTGRES_PASSWORD=pass_postgres
+    volumes:
+      - base-api-nest-postgres:/var/lib/postgresql/data
+    networks:
+      - base-api-nest-network
+
+
+volumes:
+  base-api-nest-mongo:
+  base-api-nest-postgres:
+
+networks:
+  base-api-nest-network:
+
