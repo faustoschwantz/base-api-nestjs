@@ -1,11 +1,10 @@
 import { NotFoundException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { ExampleDto } from 'src/application/example/dto/example.dto';
-import { UpdateExampleDto } from 'src/application/example/dto/update-example.dto';
 import { ExampleDocument } from 'src/infrastructure/mongoose/schemas/example.schema';
 import { IExampleMongooseRepository } from '../interfaces/repositories/example-mongoose-repository.interface';
-import { IUpdateExampleService } from '../interfaces/services/update-example-service.interface';
-import { UpdateExampleService } from './update-example.service';
+import { IDeleteExampleService } from '../interfaces/services/delete-example-service.interface';
+import { DeleteExampleService } from './delete-example.service';
 
 const exampleFake: ExampleDto = {
   id: 'any-id',
@@ -13,32 +12,27 @@ const exampleFake: ExampleDto = {
   enable: false,
 };
 
-const updateExampleFake: UpdateExampleDto = {
-  description: 'any-description',
-  enable: false,
-};
-
-describe('UpdateExampleService', () => {
-  let service: IUpdateExampleService;
+describe('DeleteExampleService', () => {
+  let service: IDeleteExampleService;
   let repository: IExampleMongooseRepository;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         {
-          provide: 'IUpdateExampleService',
-          useClass: UpdateExampleService,
+          provide: 'IDeleteExampleService',
+          useClass: DeleteExampleService,
         },
         {
           provide: 'IExampleMongooseRepository',
           useFactory: (): Partial<IExampleMongooseRepository> => ({
-            update: jest.fn(async () => exampleFake as ExampleDocument),
+            deleteById: jest.fn(async () => exampleFake as ExampleDocument),
           }),
         },
       ],
     }).compile();
 
-    service = module.get<IUpdateExampleService>('IUpdateExampleService');
+    service = module.get<IDeleteExampleService>('IDeleteExampleService');
     repository = module.get<IExampleMongooseRepository>(
       'IExampleMongooseRepository',
     );
@@ -51,31 +45,22 @@ describe('UpdateExampleService', () => {
 
   describe('When to execute the method', () => {
     it('Should be return a NotFoundException if the example does not exist', async () => {
-      const repositoryUpdateSpy = jest
-        .spyOn(repository, 'update')
+      const repositoryDeleteSpy = jest
+        .spyOn(repository, 'deleteById')
         .mockReturnValueOnce(null);
 
-      const responsePromise = service.execute(
-        exampleFake.id,
-        updateExampleFake,
-      );
+      const responsePromise = service.execute(exampleFake.id);
 
       await expect(responsePromise).rejects.toThrow(NotFoundException);
-      expect(repositoryUpdateSpy).toHaveBeenCalledWith(
-        exampleFake.id,
-        updateExampleFake,
-      );
+      expect(repositoryDeleteSpy).toHaveBeenCalledWith(exampleFake.id);
     });
 
-    it('Should be update a Example', async () => {
-      const repositoryUpdateSpy = jest.spyOn(repository, 'update');
+    it('Should be delete a Example', async () => {
+      const repositoryDeleteSpy = jest.spyOn(repository, 'deleteById');
 
-      const response = await service.execute(exampleFake.id, updateExampleFake);
+      const response = await service.execute(exampleFake.id);
 
-      expect(repositoryUpdateSpy).toHaveBeenCalledWith(
-        exampleFake.id,
-        updateExampleFake,
-      );
+      expect(repositoryDeleteSpy).toHaveBeenCalledWith(exampleFake.id);
       expect(response).toBeUndefined();
     });
   });
