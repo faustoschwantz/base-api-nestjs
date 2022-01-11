@@ -1,73 +1,102 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo_text.svg" width="320" alt="Nest Logo" /></a>
-</p>
+## Descrição
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Projeto desenvolvido para ser utilizado como template para uma API REST utilizando o framework NestJS.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
-## Description
+## Tecnologias
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+* [Node.js](https://nodejs.org/)
+* [TypeScript](https://www.typescriptlang.org/)
+* [Nest.js](https://nestjs.com/)
+* [MongoDB](https://www.mongodb.com/)
+* [Mongoose](https://mongoosejs.com/)
+* [TypeORM](https://typeorm.io/#/)
+* [PostgreSQL](https://www.postgresql.org/)
+* [Docker/Docker Compose](https://www.docker.com/)
+* [OpenAPI/Swagger](https://swagger.io/)
+* [Jest](https://jestjs.io/)
 
-## Installation
+
+## Scripts
+
 
 ```bash
+# instalar as dependências do projeto
 $ npm install
-```
 
-## Running the app
-
-```bash
-# development
+# rodar a API em desenvolvimento
 $ npm run start
 
-# watch mode
+# rodar a API em desenvolvimento com reload da aplicação
 $ npm run start:dev
 
-# production mode
+# rodar a API em desenvolvimento com debug e reload da aplicação
+$ npm run start:debug
+
+# compilar a API
+$ npm run build
+
+# executar em produção
 $ npm run start:prod
-```
 
-## Test
-
-```bash
-# unit tests
+# rodar os testes unitários
 $ npm run test
 
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
+# visualizar a cobertura de testes
 $ npm run test:cov
+
+# rodar a aplicação docker
+$ docker-compose up
+
+# subir o mongoDB
+$ docker-compose up mongo
+
+# subir o PostgreSQL
+$ docker-compose up postgre
+
+# Rodar migrations TypeORM
+$ npm run typeorm migration:run
+
+# Rodar comandos TypeORM com argumentos
+# adicionar -- antes dos argumentos
+$ npm run typeorm migration:generate -- -n ExampleCreate
 ```
 
-## Support
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+## Estrutura das pastas
 
-## Stay in touch
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
+``` bash
+├── test # Teste de integração e E2E
+└── .vscode # Configuração do VS Code Debug
+├── .husky # Configurações do husky (hooks do git, pre-commit, commit-msg)
+├── src
+├── application # Aplicação (REST API, controllers, endpoints)
+├   │   ├── example # Recurso de Example
+├   │   │   ├── dto # Estrutura dos argumentos de entrada e saída do recurso de Example
+├   │   │   ├── example.controller.spec.ts # Testes unitários do controller de Example
+├   │   │   ├── example.controller.ts # Controller do Example, com as rotas, métodos, validações, swagger
+├   │   │   └── example.module.ts # Módulo NestJS do recurso de Example
+├   │   ├── main
+├   │   │   ├── app.module.ts # Módulo principal do NestJS, inicialização dos banco de dados e recursos
+├   │   │   └── main.ts # bootstrap da aplicação/express/http
+├   │   └── utils # Métodos úteis da camada de aplicação
+├   ├── domain # Domínio/Core Regas de negócios e interfaces
+├   │   ├── entities
+├   │   ├── interfaces # As interfaces
+├   │   │   ├── repositories
+├   │   │   └── services
+├   │   └── services # A implementaçao do serviços/regras de negócios
+├   └── infrastructure # Os recursos de infra
+├       ├── config
+├       ├── mongoose # Recursos do Mongoose
+├           ├── init.ts
+├       │   ├── repositories
+├       │   └── schemas
+├       └── typeorm # Recursos do TypeORM
+├           ├── init.ts
+├           ├── entities
+├           ├── migrations
+├           └── repositories
+├── ... # Arquivos de configuração, variáveis de ambientes, docker, config, etc.
+```
